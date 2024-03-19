@@ -18,6 +18,10 @@ public class Produit {
 
     private double prixProduit;
 
+    @ManyToOne
+    @JoinColumn(name = "categorie_id")
+    private Categorie categorie;
+
     public void setPrixProduit(double prixProduit) {
         if(prixProduit > 0){
             this.prixProduit=prixProduit;
