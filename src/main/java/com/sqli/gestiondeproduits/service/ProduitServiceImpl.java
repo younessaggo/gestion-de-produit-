@@ -1,5 +1,6 @@
 package com.sqli.gestiondeproduits.service;
 
+import com.sqli.gestiondeproduits.Exception.DuplicateProductException;
 import com.sqli.gestiondeproduits.dao.ProduitDao;
 import com.sqli.gestiondeproduits.model.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class ProduitServiceImpl implements ProduitService{
 
     @Override
     public void ajouterProduit(Produit produit) {
+        if (produitDao.findByCodeProduit(produit.getCodeProduit()).isPresent()){
+            throw new DuplicateProductException("un produit avec le meme code deja existe");
+        }
         produit.setPrixProduit(produit.getPrixProduit());
         produitDao.save(produit);
 

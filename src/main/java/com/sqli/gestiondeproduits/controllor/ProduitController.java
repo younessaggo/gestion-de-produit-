@@ -1,5 +1,6 @@
 package com.sqli.gestiondeproduits.controllor;
 
+import com.sqli.gestiondeproduits.Exception.DuplicateProductException;
 import com.sqli.gestiondeproduits.model.Produit;
 import com.sqli.gestiondeproduits.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,13 @@ public class ProduitController {
         return produitService.getAllProduits();
     }
     @PostMapping("/")
-    public void ajouterProduit(@RequestBody Produit produit){
-        produitService.ajouterProduit(produit);
+    public String ajouterProduit(@RequestBody Produit produit){
+        try {
+            produitService.ajouterProduit(produit);
+            return "produit ajouter avec succe";
+        }catch (DuplicateProductException duplicateProductException){
+           return duplicateProductException.getMessage();
+        }
     }
 
 }
