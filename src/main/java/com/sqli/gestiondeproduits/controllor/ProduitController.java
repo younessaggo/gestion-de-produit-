@@ -2,6 +2,7 @@ package com.sqli.gestiondeproduits.controllor;
 
 import com.sqli.gestiondeproduits.Exception.DuplicateProductException;
 import com.sqli.gestiondeproduits.Exception.PrixProduitException;
+import com.sqli.gestiondeproduits.Exception.ProduitNExistePas;
 import com.sqli.gestiondeproduits.model.Produit;
 import com.sqli.gestiondeproduits.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class ProduitController {
     private ProduitService produitService;
 
     @GetMapping("")
-    public Optional<List<Produit>> getAllProduit(){
-        return produitService.getAllProduits();
+    public Optional<List<Produit>> recupererTousLesProduits(){
+        return produitService.recupererTousLesProduits();
     }
     @PostMapping("/")
     public String ajouterProduit(@RequestBody Produit produit){
@@ -33,8 +34,8 @@ public class ProduitController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProduitById(@PathVariable Integer id){
-        Optional<Produit> produit=produitService.getProduitById(id);
+    public ResponseEntity<?> recupererProduitParId(@PathVariable Integer id){
+        Optional<Produit> produit=produitService.recupererProduitById(id);
         if(produit.isPresent()){
             return ResponseEntity.ok(produit.get());
 
@@ -45,13 +46,26 @@ public class ProduitController {
     }
 
     @PutMapping("/{id}")
-    public String updateProduit(@PathVariable Integer id ,@RequestBody Produit produit){
+    public String mettreAJourProduit(@PathVariable Integer id ,@RequestBody Produit produit){
         try {
-            produitService.updateProduit(id,produit);
+            produitService.mettreAJourProduit(id,produit);
             return "produit mit a jour avec succes";
         } catch (PrixProduitException | DuplicateProductException exception){
            return  exception.getMessage();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public String supprimerProduit(@PathVariable Integer id){
+        try {
+            produitService.supprimerProduit(id);
+
+            return "produit supprimier avec succes";
+        }catch (ProduitNExistePas produitExistePas){
+            return produitExistePas.getMessage();
+        }
+
+
     }
 
 }

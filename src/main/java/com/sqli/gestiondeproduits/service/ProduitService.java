@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface ProduitService {
 
-    Optional<List<Produit>> getAllProduits();
+    Optional<List<Produit>> recupererTousLesProduits();
 
-    Optional<Produit> getProduitById(Integer id);
+    Optional<Produit> recupererProduitById(Integer id);
 
     void ajouterProduit(Produit produit);
 
-    void  updateProduit(Integer idProduit ,Produit produit);
+    void  mettreAJourProduit(Integer idProduit ,Produit produit);
 
-    void deleteProduit(Integer idProduit );
+    void supprimerProduit(Integer idProduit );
 
 }
