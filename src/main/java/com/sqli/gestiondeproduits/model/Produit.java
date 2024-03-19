@@ -22,12 +22,5 @@ public class Produit {
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
-    public void setPrixProduit(double prixProduit) {
-        if(prixProduit > 0){
-            this.prixProduit=prixProduit;
-        }
-        else {
-            throw new IllegalArgumentException("le prix doit etre superieur a 0");
-        }
-    }
+
 }
